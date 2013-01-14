@@ -1,0 +1,12 @@
+--- #Koality: 0.0.1
+languages:
+  nodejs: 0.8.9
+setup:
+  - packages:
+    - npm:
+      - directory: lang/js
+test:
+  - grunt_test:
+      path: lang/js
+      script:
+        - node_modules/grunt/bin/grunt
