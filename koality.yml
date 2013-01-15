@@ -10,3 +10,7 @@ test:
       path: lang/js
       script:
         - node_modules/grunt/bin/grunt
+  - hello:
+      path: lang/js
+      script: echo hello world
+
