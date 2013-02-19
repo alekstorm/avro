@@ -52,7 +52,7 @@
 
   <modules>
     <module>lang/java</module>
-    <module>lang/scala</module>
+    <!--<module>lang/scala</module>-->
   </modules>
 
   <scm>

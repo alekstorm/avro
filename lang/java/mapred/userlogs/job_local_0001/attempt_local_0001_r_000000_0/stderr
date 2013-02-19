@@ -1,0 +1,5 @@
+357 [SocketServer on 0.0.0.0/0.0.0.0:0] INFO org.apache.avro.ipc.SocketServer - starting /0:0:0:0:0:0:0:0%0
+400 [Connection to /192.168.246.106:53140] INFO org.apache.avro.mapred.tether.TetherTaskRunner - got configure
+412 [Connection to /192.168.246.106:53140] INFO org.apache.avro.mapred.tether.TetherTaskRunner - got input complete
+413 [Connection to /192.168.246.106:53140] INFO org.apache.avro.ipc.SaslSocketTransceiver - closing to 0.0.0.0/0.0.0.0:53135
+414 [SocketServer on 0.0.0.0/0.0.0.0:0] INFO org.apache.avro.ipc.SocketServer - stopping /0:0:0:0:0:0:0:0%0

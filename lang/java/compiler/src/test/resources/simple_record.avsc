@@ -2,6 +2,6 @@
   "type": "record", 
   "name": "SimpleRecord",
   "fields" : [
-    {"name": "value", "type": "int"}
+    {"name": "value", "type": []}
   ]
 }

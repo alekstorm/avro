@@ -3,13 +3,44 @@
   "namespace" : "org.apache.avro.scala.test.generated",
   "types" : [ {
     "type" : "record",
-    "name" : "Animal",
+    "name" : "Request",
     "fields" : [ {
-      "name" : "species",
-      "type" : "string"
-    }, {
-      "name" : "favoriteFood",
+      "name" : "name",
       "type" : "string"
     } ]
-  } ]
+  },
+   {
+       "type" : "record",
+       "name" : "Response",
+       "fields" : [ {
+         "name" : "name",
+         "type" : "string"
+       } ]
+     },
+     {
+         "type" : "error",
+         "name" : "Error",
+         "fields" : [ {
+           "name" : "name",
+           "type" : "string"
+         } ]
+       }],
+    "messages": {
+      "message": {
+        "request": [ {
+          "name" : "request",
+          "type" : "Request"
+        },
+        {
+          "name" : "timestamp",
+          "type" : "long"
+        }],
+        "response": "Response",
+        "errors": ["Error"]
+      },
+    "empty": {
+      "request": [],
+      "response": "null"
+    }
+    }
 }

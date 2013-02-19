@@ -45,20 +45,20 @@
               <goal>schema</goal>
             </goals>
           </execution>
-          <execution>
+          <!-- <execution>
             <id>test-schemas</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>schema</goal>
               <goal>protocol</goal>
             </goals>
-            <!-- compile only test protocols and schemas and place them in the classpath. -->
+            compile only test protocols and schemas and place them in the classpath
             <configuration>
               <sourceDirectory></sourceDirectory>
               <testSourceDirectory>${parent.project.basedir}/../../../../share/test/schemas/</testSourceDirectory>
               <testOutputDirectory>${project.build.directory}/generated-test-sources/java</testOutputDirectory>
             </configuration>
-          </execution>
+          </execution> -->
           <execution>
             <id>mapred-schema</id>
             <phase>generate-sources</phase>
@@ -109,6 +109,7 @@
       <artifactId>avro-ipc</artifactId>
       <classifier>tests</classifier>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>     
       <groupId>org.easymock</groupId>
