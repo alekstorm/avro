@@ -17,28 +17,13 @@
  */
 package org.apache.avro.scala
 
-import java.io.File
-import org.junit.runner.RunWith
-import org.scalatest.FunSuite
-import org.scalatest.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
-class TestScalaCompiler extends FunSuite {
-
-  // TODO: re-implement Overwrite
-  //final val Overwrite = true
-
-  test("compile schema") {
-    val inDir = new File("src/test/resources/testdata")
-    require(inDir.exists, inDir)
-    val outDir = new File(inDir, "org/apache/avro/scala/test/generated/scala")
-    CompilerApp.compileAndWrite(outDir, inDir, CompilerApp.SchemaInput)
-  }
-
-  test("compile protocol") {
-    val inDir = new File("src/test/resources/testdata")
-    require(inDir.exists, inDir)
-    val outDir = new File(inDir, "org/apache/avro/scala/test/generated/scala")
-    CompilerApp.compileAndWrite(outDir, inDir, CompilerApp.ProtocolInput)
-  }
+trait SampleTrait {
+  def stringMethod: String = "abc"
 }
+
+// DEMO
+// HashMap of repr-agnostic Records
+// Protocol impl switcher
+// Protocol implicit thingy
+// Builder
