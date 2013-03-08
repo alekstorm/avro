@@ -18,17 +18,13 @@
 package org.apache.avro.scala
 
 import java.io.File
+
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class TestScalaCompiler extends FunSuite {
-
-  // TODO: re-implement Overwrite
-  //final val Overwrite = true
-
-
   test("compile schema") {
     val inDir = new File("src/test/resources/fixtures")
     require(inDir.exists, inDir)

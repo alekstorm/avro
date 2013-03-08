@@ -3,14 +3,13 @@ package org.apache.avro.scala
 import java.io.ByteArrayOutputStream
 
 import org.apache.avro.{Protocol => JProtocol}
-import org.apache.avro.generic.{GenericRecord, GenericDatumWriter}
+import org.apache.avro.generic.{GenericDatumWriter, GenericRecord}
 import org.apache.avro.io.EncoderFactory
 import org.apache.avro.ipc.generic.GenericResponder
 
 import shapeless._
 
-// TODO(alek): passing Encoder and Decoder instances doesn't make sense anymore
-class Responder[P <: HList](handler: ProtocolHandler[P], local: Protocol)(implicit rpc: Rpc[P], codec: Codec) extends GenericResponder(local.jProtocol) {
+class Responder[P <: HList, C <: Codec](handler: ProtocolHandler[P], local: Protocol)(implicit rpc: Rpc[P], codec: C) extends GenericResponder(local.jProtocol) {
   @throws[Exception]
   override def respond(avroMessage: JProtocol#Message, genericRequest: AnyRef): AnyRef = {
     val message = Message.fromJava(avroMessage)

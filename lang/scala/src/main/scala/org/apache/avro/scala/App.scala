@@ -9,8 +9,6 @@ import org.apache.avro.{Protocol => JProtocol, Schema => JSchema}
 import org.apache.avro.compiler.idl.Idl
 
 object CompilerApp extends App {
-  import CodeStringProcessor._
-
   if (args.size < 3) {
     printHelp()
     sys.exit(1)
@@ -67,9 +65,9 @@ object CompilerApp extends App {
       val name = inFile.getName.stripSuffix(".%s".format(inputType.extension))
       val scalaFile = new File(outDir, "%s.scala".format(name)) // TODO(alek): handle collisions from files with same input name (but different directories) being written to same output directory
       val scalaSource = inputType match {
-        case SchemaInput => Compiler.compileSchema(Schema.fromJava(new JSchema.Parser().parse(inFile)))
-        case ProtocolInput => Compiler.compileProtocol(Protocol.fromJava(JProtocol.parse(inFile)))
-        case IdlInput => Compiler.compileProtocol(Protocol.fromJava(new Idl(inFile).CompilationUnit))
+        case SchemaInput => compiler.compileSchema(Schema.fromJava(new JSchema.Parser().parse(inFile)))
+        case ProtocolInput => compiler.compileProtocol(Protocol.fromJava(JProtocol.parse(inFile)))
+        case IdlInput => compiler.compileProtocol(Protocol.fromJava(new Idl(inFile).CompilationUnit))
       }
       FileUtils.writeStringToFile(scalaFile, scalaSource, "UTF-8")
     }

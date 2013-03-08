@@ -16,6 +16,10 @@
     <relativePath>../../</relativePath>
   </parent>
 
+  <properties>
+    <file.encoding>UTF-8</file.encoding>
+  </properties>
+
   <build>
     <testSourceDirectory>${basedir}/src/test/scala/test</testSourceDirectory>
     <plugins>
@@ -57,7 +61,11 @@
             <arg>-language:_</arg>
             <arg>-deprecation</arg>
             <arg>-unchecked</arg>
-            <arg>-Xfatal-warnings</arg>
+            <!-- <arg>-Xfatal-warnings</arg> -->
+            <arg>-encoding</arg>
+            <arg>UTF-8</arg>
+            <!--<arg>-Ytyper-debug</arg>
+            <arg>-Xlog-implicits</arg>-->
           </args>
         </configuration>
       </plugin>
@@ -83,7 +91,7 @@
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <configuration>
-          <excludeDefaultDirectories>true</excludeDefaultDirectories>
+          <!-- <excludeDefaultDirectories>true</excludeDefaultDirectories> -->
           <filesets>
             <fileset>
               <directory>src/test/resources/fixtures</directory>
