@@ -1,0 +1,11 @@
+{
+  "type" : "record",
+  "name" : "UnionEmpty",
+  "namespace" : "org.apache.avro.scala.test.generated",
+  "fields" : [
+    /*{
+      "name": "union_field",
+      "type": []
+    }*/
+  ]
+}

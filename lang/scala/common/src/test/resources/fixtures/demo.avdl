@@ -1,0 +1,20 @@
+@namespace("org.apache.avro.scala.test.generated")
+protocol Demo {
+  enum Species {
+    Dog, Hamster
+  }
+
+  record Pet {
+    Species species;
+  }
+
+  record Person {
+    string name;
+    int age;
+    map<Pet> pets;
+    //union { string, double } onion;
+  }
+
+  Person createPerson(string name, int age, map<Pet> pets/*, union { string, double } onion*/);
+  void removePerson(Person person);
+}

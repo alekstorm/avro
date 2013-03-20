@@ -1,0 +1,24 @@
+[
+    {
+      "type" : "record",
+      "name" : "Contained",
+      "namespace" : "org.apache.avro.scala.test.generated",
+      "fields" : [
+        {
+          "name": "data",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "type" : "record",
+      "name" : "Container",
+      "namespace" : "org.apache.avro.scala.test.generated",
+      "fields" : [
+        /*{
+          "name": "contained",
+          "type": "Contained"
+        }*/
+      ]
+    }
+]

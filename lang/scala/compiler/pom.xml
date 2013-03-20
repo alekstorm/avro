@@ -6,23 +6,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Apache Avro Scala</name>
-  <artifactId>avro-scala-parent_1.7_2.10</artifactId>
+  <artifactId>avro-scala-compiler-_1.7_2.10</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <url>https://github.com/alekstorm/avro/tree/scala-1.7-2.10/lang/scala</url>
 
   <parent>
     <groupId>org.apache.avro</groupId>
-    <artifactId>avro-toplevel</artifactId>
-    <!-- TODO(alek): change to 1.7.0-SNAPSHOT -->
-    <version>1.7.3-SNAPSHOT</version>
-    <relativePath>../../</relativePath>
+    <artifactId>avro-scala-parent_1.7_2.10</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../</relativePath>
   </parent>
-
-  <properties>
-    <file.encoding>UTF-8</file.encoding>
-    <avro.version>[1.7.0,1.8.0)</avro.version>
-    <jackson.version>1.8.8</jackson.version>
-  </properties>
 
   <build>
     <testSourceDirectory>${basedir}/src/test/scala/test</testSourceDirectory>
