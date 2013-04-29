@@ -7,167 +7,50 @@ import org.apache.avro.generic.{GenericDatumReader, GenericDatumWriter}
 import org.apache.avro.io.{DecoderFactory, EncoderFactory}
 import org.apache.avro.util.Utf8
 
-import code._
+import generated._
 
-case class Field(name: String, value: Schema)
-
-trait Schema {
+sealed trait Schema {
   var jSchema: JSchema = null // temporary hack
-  def toPresenter(value: String): String
-  def fromPresenter(value: String): String
-  def descriptorType: String
-  def presenterType: String
-  def unionType: String
 }
+
+trait SchemaValue[T] {
+  object Writer {
+    def unapply(m: Manifest[_], value: Any): Option[T] = if (m <:< manifest[T]) Some(value.asInstanceOf[T]) else None
+  }
+
+  object Reader {
+    def unapply(m: Manifest[_]): Boolean = m <:< manifest[T]
+  }
+}
+
+sealed trait SingleSchema extends Schema
+case object IntSchema extends SingleSchema with SchemaValue[Int]
+case object LongSchema extends SingleSchema with SchemaValue[Long]
+case object FloatSchema extends SingleSchema with SchemaValue[Float]
+case object DoubleSchema extends SingleSchema with SchemaValue[Double]
+case object BooleanSchema extends SingleSchema with SchemaValue[Boolean]
+case object BytesSchema extends SingleSchema with SchemaValue[Array[Byte]]
+case object StringSchema extends SingleSchema with SchemaValue[String]
+case object NullSchema extends SingleSchema with SchemaValue[Unit]
 
 // TODO(alek): use shapeless for stronger guarantees about types
-trait SingleSchema extends Schema
-case class UnionSchema(types: Seq[SingleSchema]) extends Schema {
-  def toPresenter(value: String): String = {
-    val nones = List.tabulate(types.size)(_ => "None")
-    if ( types.size == 0 )
-      "null"
-    else {
-      def foo(i: Int): String = if (i < 0) "throw new Exception(\"impossible\")" else s"$value.instance.apply(_root_.shapeless.Nat._$i).getOrElse(${foo(i-1)})"
-      s"${foo(types.size-1)}.asInstanceOf[$presenterType]"
-    }
-  }
-  def fromPresenter(value: String): String = {
-    val nones = List.tabulate(types.size)(_ => "None")
-    val ret = if ( types.size == 0 )
-      "_root_.shapeless.HNil"
-    else {
-      code"""
-        $value match {
-          ${types.zipWithIndex.map { case (typ, idx) => s"case v: ${typ.presenterType} => ${compiler.toHList(nones.updated(idx, s"Some(${typ.fromPresenter(s"$value.asInstanceOf[${typ.presenterType}]")})"), false).toSeq}" }.mkString("\n")}
-        }"""
-    }
-    s"new _root_.org.apache.avro.scala.UnionThing($ret)"
-  }
-  def descriptorType = s"_root_.org.apache.avro.scala.UnionThing[${compiler.toHList(types.map("Option[" + _.descriptorType + "]"))}]"
-  def presenterType = {
-    types.size match {
-      case 0 => "Nothing"
-      case 1 => types.head.presenterType
-      case _ => "U$" + types.map(_.unionType).sorted.mkString("$")
-    }
-  }
-  def unionType = types.map(_.unionType).mkString("|")
-}
+case class UnionSchema(types: Seq[SingleSchema]) extends Schema
+object UnionSchema extends SchemaValue[UnionDescriptor[_]]
+case class ArraySchema(elements: Schema) extends SingleSchema
+object ArraySchema extends SchemaValue[Seq[_]]
+case class MapSchema(values: Schema) extends SingleSchema
+object MapSchema extends SchemaValue[AvroMap[_]]
 
-case class ArraySchema(elements: Schema) extends SingleSchema {
-  def toPresenter(value: String) = s"$value.map(elem => ${elements.toPresenter("elem")})"
-  def fromPresenter(value: String) = s"$value.map(elem => ${elements.fromPresenter("elem")})"
-  def descriptorType = s"Seq[${elements.descriptorType}]"
-  def presenterType = s"Seq[${elements.presenterType}]"
-  def unionType = s"Seq_${elements.unionType}"
-}
+sealed trait NamedSchema extends SingleSchema { val name: String; val namespace: Option[String] }
+case class FixedSchema(name: String, size: Int, namespace: Option[String]) extends NamedSchema
+object FixedSchema extends SchemaValue[AvroFixed]
+case class EnumSchema(name: String, symbols: Seq[String], namespace: Option[String]) extends NamedSchema
+object EnumSchema extends SchemaValue[AvroEnum]
 
-case class MapSchema(values: Schema) extends SingleSchema {
-  def toPresenter(value: String): String = s"$value.mapValues(value => ${values.toPresenter("value")})"
-  def fromPresenter(value: String): String = s"$value.mapValues(value => ${values.fromPresenter("value")})"
-  def descriptorType: String = s"Map[String, ${values.descriptorType}]"
-  def presenterType: String = s"Map[String, ${values.presenterType}]"
-  def unionType: String = s"Map_${values.unionType}"
-}
-
-case object BooleanSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Boolean"
-  def presenterType: String = "Boolean"
-  def unionType: String = "Boolean"
-}
-
-case object BytesSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Array[Byte]"
-  def presenterType: String = "Array[Byte]"
-  def unionType: String = "Bytes"
-}
-
-case object DoubleSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Double"
-  def presenterType: String = "Double"
-  def unionType: String = "Double"
-}
-
-case object FloatSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Float"
-  def presenterType: String = "Float"
-  def unionType: String = "Float"
-}
-
-case object IntSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Int"
-  def presenterType: String = "Int"
-  def unionType: String = "Int"
-}
-
-case object LongSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Long"
-  def presenterType: String = "Long"
-  def unionType: String = "Long"
-}
-
-case object NullSchema extends SingleSchema {
-  def toPresenter(value: String): String = s"{ $value; () }"
-  def fromPresenter(value: String): String = s"{ $value; () }"
-  def descriptorType: String = "Unit"
-  def presenterType: String = "Unit"
-  def unionType: String = "Unit"
-}
-
-case object StringSchema extends SingleSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "String"
-  def presenterType: String = "String"
-  def unionType: String = "String"
-}
-
-trait NamedSchema extends SingleSchema { val name: String; val namespace: Option[String] }
-
-case class FixedSchema(name: String, size: Int, namespace: Option[String]) extends NamedSchema {
-  def toPresenter(value: String): String = value
-  def fromPresenter(value: String): String = value
-  def descriptorType: String = "Seq[Byte]" //FixedSeq[N${size}][Byte] // TODO(alek): use name
-  def presenterType: String = "Seq[Byte]" //FixedSeq[N${size}][Byte] // TODO(alek): use name
-  def unionType: String = "Fixed"
-}
-
-case class EnumSchema(name: String, symbols: Seq[String], namespace: Option[String]) extends NamedSchema {
-  def toPresenter(value: String): String = {
-    code"""$value.value match {
-      ${symbols.zipWithIndex.map { case (symbol, idx) => s"case $idx => $name.$symbol" }.mkString ("\n")}
-    } """ //"""
-  }
-  def fromPresenter(value: String): String = {
-    code"""new _root_.org.apache.avro.scala.AvroEnum($value match {
-      ${symbols.zipWithIndex.map { case (symbol, idx) => s"case $name.$symbol => $idx" }.mkString("\n")}
-    })""" //"""
-  }
-  def descriptorType: String = "_root_.org.apache.avro.scala.AvroEnum"
-  def presenterType: String = s"$name.Value"
-  def unionType: String = s"Enum_$name"
-}
-
-trait FieldsSchema extends SingleSchema { val fields: Seq[Field] }
-trait RecordBaseSchema extends NamedSchema with FieldsSchema {
-  def toPresenter(value: String): String = s"implicitly[_root_.org.apache.avro.scala.generated.PresenterAux[T${"$"}$name, _root_.org.apache.avro.scala.RecordThing[$name${"$"}Record.Descriptor]]].from($value)"
-  def fromPresenter(value: String): String = s"implicitly[_root_.org.apache.avro.scala.generated.PresenterAux[T${"$"}$name, _root_.org.apache.avro.scala.RecordThing[$name${"$"}Record.Descriptor]]].to($value)"
-  def descriptorType: String = s"_root_.org.apache.avro.scala.RecordThing[$name${"$"}Record.Descriptor]"
-  def presenterType: String = "T$" + name
-  def unionType: String = s"Record_$name"
+case class Field(name: String, value: Schema)
+sealed trait RecordBaseSchema extends NamedSchema { val fields: Seq[Field] }
+object RecordBaseSchema extends SchemaValue[RecordDescriptor[_]] {
+  def unapply(schema: RecordBaseSchema) = Some((schema.name, schema.fields, schema.namespace))
 }
 case class ErrorSchema(name: String, fields: Seq[Field], namespace: Option[String]) extends RecordBaseSchema
 case class RecordSchema(name: String, fields: Seq[Field], namespace: Option[String]) extends RecordBaseSchema
@@ -240,7 +123,7 @@ package object jschema {
 
 package object utf8 {
   implicit class RichString(s: String) {
-    def toUtf8() = new Utf8(s)
+    def toUtf8 = new Utf8(s)
   }
 }
 
@@ -308,6 +191,7 @@ object ~> {
   type Wild = X ~> Y forSome { type X[_]; type Y[_] }
 }
 
+// TODO(alek): resolve diverging implicit expansion same way typeclass.scala did it in shapeless
 trait CurrierAux[C <: HList, P <: HList] {
   type Out[R]
   def apply[R](f: P => R, curried: C): Out[R]

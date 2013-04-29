@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
 <project
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5,207 +22,167 @@
                         http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Apache Avro Scala</name>
+  <groupId>org.apache.avro.scala</groupId>
   <artifactId>avro-scala-parent_1.7_2.10</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <url>https://github.com/alekstorm/avro/tree/scala-1.7-2.10/lang/scala</url>
+  <version>1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Apache Avro Scala</name>
+  <url>https://github.com/alekstorm/avro/tree/scala-${avro.version}-${scala.version}/lang/scala</url>
 
   <parent>
     <groupId>org.apache.avro</groupId>
-    <artifactId>avro-toplevel</artifactId>
+    <artifactId>avro-parent</artifactId>
     <!-- TODO(alek): change to 1.7.0-SNAPSHOT -->
     <version>1.7.3-SNAPSHOT</version>
-    <relativePath>../../</relativePath>
+    <relativePath>../../java</relativePath>
   </parent>
+
+  <modules>
+    <module>common</module>
+    <module>compiler</module>
+    <!-- <module>maven-plugin</module> -->
+    <module>test</module>
+  </modules>
 
   <properties>
     <file.encoding>UTF-8</file.encoding>
-    <avro.version>[1.7.0,1.8.0)</avro.version>
-    <jackson.version>1.8.8</jackson.version>
+    <avro.range>[1.7.0,1.8.0)</avro.range>
+    <avro.version>1.7</avro.version>
+    <commons-io.version>2.3</commons-io.version>
+    <scala.range>2.10.0</scala.range>
+    <scala.version>2.10</scala.version>
+    <scalatest.version>2.0.M5b</scalatest.version>
+    <shapeless.version>1.2.3</shapeless.version>
   </properties>
 
   <build>
-    <testSourceDirectory>${basedir}/src/test/scala/test</testSourceDirectory>
-    <plugins>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.1.3</version>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>compile-fixture-generators</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <testSourceDir>${basedir}/src/test/scala/generator</testSourceDir>
-            </configuration>
-          </execution>
-          <execution>
-            <id>compile-fixtures</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <testSourceDir>${basedir}/src/test/scala/generated</testSourceDir>
-            </configuration>
-          </execution>
-        </executions>
-        <configuration>
-          <args>
-            <arg>-language:_</arg>
-            <arg>-deprecation</arg>
-            <arg>-unchecked</arg>
-            <!-- <arg>-Xfatal-warnings</arg>-->
-          </args>
-        </configuration>
-      </plugin>
+      <pluginManagement>
+          <plugins>
+              <plugin>
+                  <groupId>net.alchim31.maven</groupId>
+                  <artifactId>scala-maven-plugin</artifactId>
+                  <version>3.1.3</version>
+                  <executions>
+                      <execution>
+                          <id>compile</id>
+                          <phase>compile</phase>
+                          <goals>
+                              <goal>compile</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+                  <configuration>
+                      <args>
+                          <arg>-language:_</arg>
+                          <arg>-deprecation</arg>
+                          <arg>-unchecked</arg>
+                          <!-- <arg>-Xfatal-warnings</arg>-->
+                      </args>
+                  </configuration>
+              </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.13</version>
-        <executions>
-          <execution>
-            <id>test-fixture-generators</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <testSourceDirectory>${basedir}/src/test/scala/generator</testSourceDirectory>
-              <includes>
-                <include>**/generator/Test*.class</include>
-              </includes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>default-test</id>
-            <configuration>
-              <testSourceDirectory>${basedir}/src/test/scala/generated</testSourceDirectory>
-              <includes>
-                <include>**/generated/Test*.class</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration />
+              </plugin>
 
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>src/test/scala/generated/fixtures</directory>
-              <includes>
-                <include>**</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-assembly-plugin</artifactId>
+                  <version>2.3</version>
+              </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.3</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <mainClass>org.apache.avro.scala.CompilerApp</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-checkstyle-plugin</artifactId>
+                  <configuration>
+                      <skip>true</skip>
+                  </configuration>
+              </plugin>
+
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-jar-plugin</artifactId>
+                  <configuration />
+              </plugin>
+          </plugins>
+      </pluginManagement>
   </build>
 
-  <dependencies>
+  <dependencyManagement>
+    <dependencies>
     <!-- TODO(alek): use version ranges wherever possible -->
     <!-- ===== Compile Dependencies ===== -->
 
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>[2.10.0,2.11.0)</version>
+      <version>${scala.range}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
-      <version>${avro.version}</version>
+      <version>${avro.range}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro-compiler</artifactId>
-      <version>${avro.version}</version>
+      <version>${avro.range}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro-ipc</artifactId>
-      <version>${avro.version}</version>
+      <version>${avro.range}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro-maven-plugin</artifactId>
+      <version>${avro.range}</version>
     </dependency>
 
     <dependency>
       <groupId>com.chuusai</groupId>
-      <artifactId>shapeless_2.10</artifactId>
-      <version>1.2.3</version>
+      <artifactId>shapeless_${scala.version}</artifactId>
+      <version>${shapeless.version}</version>
     </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.3</version>
+      <version>${commons-io.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>avro-scala-common_${avro.version}_${scala.version}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>avro-scala-compiler_${avro.version}_${scala.version}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>avro-scala-maven-plugin_${avro.version}_${scala.version}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
     <!-- ===== Test Dependencies ===== -->
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.10</artifactId>
-      <version>2.0.M5b</version>
+      <artifactId>scalatest_${scala.version}</artifactId>
+      <version>${scalatest.version}</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
+    </dependencies>
+  </dependencyManagement>
 </project>

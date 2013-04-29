@@ -6,14 +6,7 @@ import org.apache.avro.ipc.generic.GenericResponder
 
 import jschema._
 
-object Responder {
-  def apply[C <: Codec[C]] = new ResponderBuilder[C]
-  class ResponderBuilder[C <: Codec[C]] {
-    def apply[P <: ProtocolThing](handler: ProtocolHandler[P])(implicit server: Server[P, C]) = new Responder(handler)
-  }
-}
-
-class Responder[P <: ProtocolThing, C <: Codec[C]](handler: ProtocolHandler[P])(implicit server: Server[P, C]) extends GenericResponder(server.protocol.jProtocol) {
+class Responder[P <: ProtocolDescriptor](handler: ProtocolHandler[P])(implicit server: Server[P]) extends GenericResponder(server.protocol.jProtocol) {
   @throws[Exception]
   override def respond(avroMessage: JProtocol#Message, genericRequest: AnyRef): AnyRef = {
     val message = Message.fromJava(avroMessage)

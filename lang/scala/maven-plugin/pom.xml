@@ -20,17 +20,23 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Apache Avro Scala Maven Plugin</name>
-  <description>Maven Scala plugin for Avro IDL and Specific API Compilers</description>
-  <artifactId>avro-maven-plugin</artifactId>
+  <artifactId>avro-scala-maven-plugin_1.7_2.10</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+  <name>Apache Avro Scala Maven Plugin</name>
+  <description>Maven plugin for Avro Scala compiler</description>
+  <url>${parent.url}</url>
 
   <parent>
-    <artifactId>avro-scala-parent</artifactId>
     <groupId>org.apache.avro.scala</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <artifactId>avro-scala-parent_1.7_2.10</artifactId>
+    <version>1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
+
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
 
   <prerequisites>
     <maven>${maven.version}</maven>
@@ -41,7 +47,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.9</version>
         <executions>
           <execution>
             <id>generated-helpmojo</id>
@@ -56,25 +61,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>${maven.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>${maven.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>file-management</artifactId>
-      <version>${file-management.version}</version>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>avro-compiler</artifactId>
-      <version>${project.version}</version>
+      <artifactId>avro-scala-compiler_${avro.version}_${scala.version}</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro-maven-plugin</artifactId>
     </dependency>
   </dependencies>
-
 </project>

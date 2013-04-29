@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/lang/java/archetypes/avro-service-archetype/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="false">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="avro" />
+        <module name="avro-compiler" />
+        <module name="avro-ipc" />
+        <module name="avro-mapred" />
+        <module name="avro-maven-plugin" />
+        <module name="avro-maven-plugin (1) (org.apache.avro.scala)" />
+        <module name="avro-protobuf" />
+        <module name="avro-scala-common-_1.7_2.10" />
+        <module name="avro-scala-compiler-_1.7_2.10" />
+        <module name="avro-scala-test_1.7_2.10" />
+        <module name="avro-service-archetype" />
+        <module name="avro-thrift" />
+        <module name="avro-tools" />
+        <module name="trevni-avro" />
+        <module name="trevni-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="avro" target="1.6" />
+      <module name="avro-archetypes-parent" target="1.6" />
+      <module name="avro-compiler" target="1.6" />
+      <module name="avro-ipc" target="1.6" />
+      <module name="avro-mapred" target="1.6" />
+      <module name="avro-maven-plugin" target="1.6" />
+      <module name="avro-maven-plugin (1) (org.apache.avro.scala)" target="1.6" />
+      <module name="avro-parent" target="1.6" />
+      <module name="avro-protobuf" target="1.6" />
+      <module name="avro-scala-common-_1.7_2.10" target="1.6" />
+      <module name="avro-scala-compiler-_1.7_2.10" target="1.6" />
+      <module name="avro-scala-test_1.7_2.10" target="1.6" />
+      <module name="avro-scala_2.10" target="1.6" />
+      <module name="avro-service-archetype" target="1.6" />
+      <module name="avro-thrift" target="1.6" />
+      <module name="avro-tools" target="1.6" />
+      <module name="avro-toplevel" target="1.4" />
+      <module name="trevni-avro" target="1.6" />
+      <module name="trevni-core" target="1.6" />
+      <module name="trevni-doc" target="1.6" />
+      <module name="trevni-java" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
+

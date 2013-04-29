@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Maven: org.scala-lang:scala-compiler-bundle:org.apache.maven.model.Model@1ac1d87">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/org.apache.maven.model.Model@1ac1d87/scala-compiler-org.apache.maven.model.Model@1ac1d87.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/org.apache.maven.model.Model@1ac1d87/scala-library-org.apache.maven.model.Model@1ac1d87.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-reflect/org.apache.maven.model.Model@1ac1d87/scala-reflect-org.apache.maven.model.Model@1ac1d87.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lang/java/avro/avro.iml" filepath="$PROJECT_DIR$/lang/java/avro/avro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/archetypes/avro-archetypes-parent.iml" filepath="$PROJECT_DIR$/lang/java/archetypes/avro-archetypes-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/compiler/avro-compiler.iml" filepath="$PROJECT_DIR$/lang/java/compiler/avro-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/ipc/avro-ipc.iml" filepath="$PROJECT_DIR$/lang/java/ipc/avro-ipc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/mapred/avro-mapred.iml" filepath="$PROJECT_DIR$/lang/java/mapred/avro-mapred.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/maven-plugin/avro-maven-plugin.iml" filepath="$PROJECT_DIR$/lang/java/maven-plugin/avro-maven-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/scala/maven-plugin/avro-maven-plugin (1) (org.apache.avro.scala).iml" filepath="$PROJECT_DIR$/lang/scala/maven-plugin/avro-maven-plugin (1) (org.apache.avro.scala).iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/avro-parent.iml" filepath="$PROJECT_DIR$/lang/java/avro-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/protobuf/avro-protobuf.iml" filepath="$PROJECT_DIR$/lang/java/protobuf/avro-protobuf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/scala/common/avro-scala-common-_1.7_2.10.iml" filepath="$PROJECT_DIR$/lang/scala/common/avro-scala-common-_1.7_2.10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/scala/compiler/avro-scala-compiler-_1.7_2.10.iml" filepath="$PROJECT_DIR$/lang/scala/compiler/avro-scala-compiler-_1.7_2.10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/scala/test/avro-scala-test_1.7_2.10.iml" filepath="$PROJECT_DIR$/lang/scala/test/avro-scala-test_1.7_2.10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/scala/avro-scala_2.10.iml" filepath="$PROJECT_DIR$/lang/scala/avro-scala_2.10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/archetypes/avro-service-archetype/avro-service-archetype.iml" filepath="$PROJECT_DIR$/lang/java/archetypes/avro-service-archetype/avro-service-archetype.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/thrift/avro-thrift.iml" filepath="$PROJECT_DIR$/lang/java/thrift/avro-thrift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/tools/avro-tools.iml" filepath="$PROJECT_DIR$/lang/java/tools/avro-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/avro-toplevel.iml" filepath="$PROJECT_DIR$/avro-toplevel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/trevni/avro/trevni-avro.iml" filepath="$PROJECT_DIR$/lang/java/trevni/avro/trevni-avro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/trevni/core/trevni-core.iml" filepath="$PROJECT_DIR$/lang/java/trevni/core/trevni-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/trevni/doc/trevni-doc.iml" filepath="$PROJECT_DIR$/lang/java/trevni/doc/trevni-doc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lang/java/trevni/trevni-java.iml" filepath="$PROJECT_DIR$/lang/java/trevni/trevni-java.iml" />
+    </modules>
+  </component>
+</project>
+
